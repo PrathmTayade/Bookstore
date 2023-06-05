@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
-import "../App.css";
 import { Toaster, toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import BookCard from "../components/BookCard";
@@ -46,11 +45,15 @@ const BookStore = () => {
       {loading ? (
         <div>loading</div>
       ) : (
-        <>
-          {booksList.map((book, index) => (
-            <BookCard book={book} key={index} />
-          ))}
-        </>
+        <div className="container flex-1 w-screen scroll-smooth ">
+          <div className=" flex  grid-flow-row grid-cols-fluid  flex-col justify-center gap-6 p-6 text-gray-900   md:grid md:grid-cols-3    ">
+            {booksList.map((book, index) => (
+              <div key={index}>
+                <BookCard book={book} />
+              </div>
+            ))}
+          </div>
+        </div>
       )}
     </>
   );

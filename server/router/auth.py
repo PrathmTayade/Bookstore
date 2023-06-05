@@ -22,8 +22,9 @@ async def login(credentials: HTTPBasicCredentials):
     print(credentials)
     password = pwd_context.verify(
         credentials.password,
-        "$2b$12$/E0c6Yz1X9qsp7PPrkQW8.YKsMwb.7WZCRC8LRde/RjCnpoSajp6m",
+        "$2b$12$sIjA79Uk2Ky6xrmAsBw64u42q4vnRxKPjYjVMgGGmE9/lIaiJuVnG",
     )
+
     return {"message": "Login successful", "password": password}
 
 
