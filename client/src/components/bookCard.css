@@ -1,0 +1,47 @@
+.card {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 16px;
+}
+
+.cover-image {
+  width: 100px;
+  height: 150px;
+  object-fit: cover;
+  margin-right: 16px;
+}
+
+.card-content {
+  flex-grow: 1;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.author {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.description {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.price {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.rating {
+  font-size: 14px;
+  color: #666;
+}
