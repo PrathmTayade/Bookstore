@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-import "./bookCard.css";
 
 const BookCard = ({ book }) => {
   return (

@@ -1,16 +1,23 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import HomePage from "./pages/Home";
+import { Provider } from "react-redux";
 import LoginPage from "./pages/Login";
 import ErrorPage from "./pages/Error";
 import SignUpPage from "./pages/SignUp";
 import BookStore from "./pages/BookStore";
+import { store } from "./redux/store";
+import Layout from "./pages/Layout";
 
 function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <HomePage />,
-      errorElement: <ErrorPage />,
+      element: <Layout />,
+      children: [
+        {
+          path: "books",
+          element: <BookStore />,
+        },
+      ],
     },
     {
       path: "login",
@@ -20,15 +27,13 @@ function App() {
       path: "signup",
       element: <SignUpPage />,
     },
-    {
-      path: "books",
-      element: <BookStore />,
-    },
   ]);
 
   return (
     <>
-      <RouterProvider router={router} />
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
     </>
   );
 }

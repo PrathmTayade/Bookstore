@@ -26,11 +26,11 @@ const SignUpPage = () => {
       // toast.success(data.message);
 
       setTimeout(() => {
-        navigate("/");
+        navigate("/login");
       }, 2500);
     } catch (error) {
       console.log(error);
-      await toast.error(error.response.data.message);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -39,11 +39,10 @@ const SignUpPage = () => {
       <div>
         <Toaster toastOptions={{ duration: 2000 }} />
       </div>
-      <h2>Signup</h2>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-            Sign in to your account
+            Sign Up
           </h2>
         </div>
 
