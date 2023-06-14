@@ -7,9 +7,12 @@ books_router = APIRouter()
 
 
 @books_router.get("/books")
-def get_books():
-    books = collection.find()
-    return [Book(**book) for book in books]
+async def get_books():
+    books = []
+    for book in collection.find():
+        book["_id"] = str(book["_id"])
+        books.append(book)
+    return books
 
 
 # @books_router.get("/books/{book_id}")

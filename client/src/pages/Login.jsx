@@ -14,23 +14,26 @@ function LoginPage() {
 
     // axios implementation
     try {
-      const username = email;
-      const password = "";
       // send the credentials
       const res = await axios.post(import.meta.env.VITE_SERVER + "/login", {
-        username,
-        password,
+        email: email,
+        password: password,
       });
-      console.log(res);
+
+      if (res.status === 200) {
+        toast.success("Login successfull");
+        localStorage.setItem("access_token", res.data.access_token);
+        console.log(res);
+        setTimeout(() => {
+          navigate("/books");
+        }, 2500);
+      }
 
       // toast the login
       // toast.success(data.message);
-
-      setTimeout(() => {
-        navigate("/");
-      }, 2500);
     } catch (error) {
-      toast.error(error.response.data.message);
+      console.log("ererer", error);
+      toast.error(error.response.data.detail);
     }
   };
 

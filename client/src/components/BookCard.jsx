@@ -1,6 +1,12 @@
 /* eslint-disable react/prop-types */
 
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, cartSelector, removeFromCart } from "../redux/cartSlice";
+
 const BookCard = ({ book }) => {
+  const cart = useSelector(cartSelector);
+  const dispatch = useDispatch();
+
   return (
     <>
       <div>
@@ -89,25 +95,25 @@ const BookCard = ({ book }) => {
 
               {/* TODO Dynaamic button  */}
               <div>
-                {/* {context.cartItem.includes(book) ? (
+                {cart.items.some((item) => item._id === book._id) ? (
                   <button
                     type="button"
                     className=" rounded-lg px-5 py-2.5 text-center text-sm font-medium text-red-600 outline outline-red-600 hover:bg-red-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-300"
                     onClick={() => {
-                      context.removeFromCart(products);
+                      dispatch(removeFromCart(book._id));
                     }}
                   >
                     Remove
                   </button>
-                ) : ( */}
-                <button
-                  type="button"
-                  onClick={() => console.log(book)}
-                  className="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                >
-                  Add to Cart
-                </button>
-                {/* )} */}
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => dispatch(addToCart(book))}
+                    className="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  >
+                    Add to Cart
+                  </button>
+                )}
               </div>
             </div>
           </div>

@@ -1,12 +1,23 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Cart from "../components/Cart";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import LoginOrSignupPage from "./HomePage";
 
 const Layout = () => {
   const navigate = useNavigate();
   const [isAuthenticated, setisAuthenticated] = useState(false);
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("access_token");
+
+    if (accessToken) {
+      setisAuthenticated(true);
+    } else {
+      setisAuthenticated(false);
+    }
+  }, []);
 
   return (
     <>
@@ -23,10 +34,9 @@ const Layout = () => {
           <footer>made with love by prathamesh</footer>
         </>
       ) : (
-        <div>
-          <div>please login or signup to contin</div>
-          <button onClick={() => navigate("login")}>login</button>
-        </div>
+        <main>
+          <LoginOrSignupPage />
+        </main>
       )}
     </>
   );

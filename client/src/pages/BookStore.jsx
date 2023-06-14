@@ -47,8 +47,8 @@ const BookStore = () => {
       ) : (
         <div className="container flex-1 w-screen scroll-smooth ">
           <div className=" flex  grid-flow-row grid-cols-fluid  flex-col justify-center gap-6 p-6 text-gray-900   md:grid md:grid-cols-3    ">
-            {booksList.map((book, index) => (
-              <div key={index}>
+            {booksList.map((book) => (
+              <div key={book._id}>
                 <BookCard book={book} />
               </div>
             ))}

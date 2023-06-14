@@ -1,12 +1,19 @@
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { cartSelector } from "../redux/cartSlice";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import Cart from "./Cart";
 import { useState } from "react";
 
 export default function Navbar({ setOpen }) {
+  const navigate = useNavigate();
   const cart = useSelector(cartSelector);
+
+  const logout = () => {
+    localStorage.removeItem("access_token");
+    navigate("/home");
+    // TODO add logout thankyou page
+  };
 
   return (
     <>
@@ -60,6 +67,10 @@ export default function Navbar({ setOpen }) {
         <Link to={"books"}>
           <h2>Shop</h2>
         </Link>
+
+        <button type="button" onClick={logout}>
+          logout
+        </button>
         <ShoppingCartIcon onClick={() => setOpen(true)} className="h-10 w-10" />
       </div>
     </>

@@ -1,11 +1,13 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { cartSelector } from "../redux/cartSlice";
-import { useSelector } from "react-redux";
+import { cartSelector, removeFromCart } from "../redux/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Cart({ open, setOpen }) {
   const cart = useSelector(cartSelector);
+  const dispatch = useDispatch();
+  console.log(cart);
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -59,12 +61,12 @@ export default function Cart({ open, setOpen }) {
                             role="list"
                             className="-my-6 divide-y divide-gray-200"
                           >
-                            {cart.items.map((product) => (
-                              <li key={product.id} className="flex py-6">
+                            {cart.items.map((book) => (
+                              <li key={book._id} className="flex py-6">
                                 <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                   <img
-                                    src={product.imageSrc}
-                                    alt={product.imageAlt}
+                                    src={book.image}
+                                    alt={book.imageAlt}
                                     className="h-full w-full object-cover object-center"
                                   />
                                 </div>
@@ -73,24 +75,28 @@ export default function Cart({ open, setOpen }) {
                                   <div>
                                     <div className="flex justify-between text-base font-medium text-gray-900">
                                       <h3>
-                                        <a href={product.href}>
-                                          {product.name}
-                                        </a>
+                                        {/* <a href={book.href}> */}
+                                        {book.title}
+                                        {/* </a> */}
                                       </h3>
-                                      <p className="ml-4">{product.price}</p>
+                                      <p className="ml-4">{book.price}</p>
                                     </div>
                                     <p className="mt-1 text-sm text-gray-500">
-                                      {product.color}
+                                      {book.author}
                                     </p>
                                   </div>
                                   <div className="flex flex-1 items-end justify-between text-sm">
                                     <p className="text-gray-500">
-                                      Qty {product.quantity}
+                                      Qty
+                                      {book.quantity}
                                     </p>
 
                                     <div className="flex">
                                       <button
                                         type="button"
+                                        onClick={() =>
+                                          dispatch(removeFromCart(book._id))
+                                        }
                                         className="font-medium text-indigo-600 hover:text-indigo-500"
                                       >
                                         Remove

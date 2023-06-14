@@ -3,56 +3,31 @@ import { createSlice } from "@reduxjs/toolkit";
 export const cartSlice = createSlice({
   name: "cart",
   initialState: {
-    items: [
-      {
-        id: 1,
-        name: "Throwback Hip Bag",
-        href: "#",
-        color: "Salmon",
-        price: "$90.00",
-        quantity: 1,
-        imageSrc:
-          "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg",
-        imageAlt:
-          "Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.",
-      },
-      {
-        id: 2,
-        name: "Medium Stuff Satchel",
-        href: "#",
-        color: "Blue",
-        price: "$32.00",
-        quantity: 1,
-        imageSrc:
-          "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg",
-        imageAlt:
-          "Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.",
-      },
-    ],
+    items: [],
   },
 
   reducers: {
     addToCart: (state, action) => {
       const cartItem = state.items.find(
-        (item) => item.id === action.payload.id
+        (item) => item._id === action.payload._id
       );
 
       if (cartItem) {
-        cartItem.quantity += 1;
+        cartItem.quantity++;
         return;
       } else {
         state.items.push(action.payload);
       }
     },
     removeFromCart: (state, action) => {
-      state.items = state.items.filter((items) => items.id !== action.payload);
+      state.items = state.items.filter((items) => items._id !== action.payload);
     },
     increase: (state, action) => {
-      const cartItem = state.items.find((item) => item.id === action.payload);
+      const cartItem = state.items.find((item) => item._id === action.payload);
       cartItem.quantity += 1;
     },
     decrease: (state, action) => {
-      const cartItem = state.items.find((item) => item.id === action.payload);
+      const cartItem = state.items.find((item) => item._id === action.payload);
 
       if (cartItem.quantity <= 1) {
         return;

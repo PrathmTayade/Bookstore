@@ -23,7 +23,7 @@ const SignUpPage = () => {
 
       // toast the login
       console.log(res);
-      // toast.success(data.message);
+      toast.success(res.data.message);
 
       setTimeout(() => {
         navigate("/login");
