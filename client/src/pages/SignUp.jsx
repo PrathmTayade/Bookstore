@@ -1,25 +1,19 @@
 import axios from "axios";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { Toaster, toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 const SignUpPage = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
+  const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
 
-  const handleSignUp = async (e) => {
-    e.preventDefault();
-
+  const handleSignUp = async (data) => {
     try {
       // send the credentials
-      const res = await axios.post(import.meta.env.VITE_SERVER + "/signup", {
-        name: name,
-        email: email,
-        password: password,
-      });
+      const res = await axios.post(
+        import.meta.env.VITE_SERVER + "/signup",
+        data
+      );
 
       // toast the login
       console.log(res);
@@ -47,7 +41,7 @@ const SignUpPage = () => {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" onSubmit={handleSignUp}>
+          <form className="space-y-6" onSubmit={handleSubmit(handleSignUp)}>
             <div>
               <label
                 htmlFor="name"
@@ -61,8 +55,7 @@ const SignUpPage = () => {
                   name="name"
                   type="text"
                   required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  {...register("name")}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -81,8 +74,7 @@ const SignUpPage = () => {
                   type="email"
                   autoComplete="email"
                   required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  {...register("email")}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -112,8 +104,7 @@ const SignUpPage = () => {
                   type="password"
                   autoComplete="current-password"
                   required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  {...register("password")}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>

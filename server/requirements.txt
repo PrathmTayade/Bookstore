@@ -1,5 +1,5 @@
 fastapi
-uvicorn
+uvicorn[standard]
 pymongo
-passlib
-python-jose
+passlib[bcrypt]
+python-jose[cryptography]

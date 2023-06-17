@@ -7,13 +7,13 @@ const LoginOrSignupPage = () => {
         <h2 className="text-2xl font-bold mb-4">Login or Signup to Continue</h2>
         <div className="flex justify-center">
           <Link
-            to="/login"
+            to="login"
             className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-4"
           >
             Login
           </Link>
           <Link
-            to="/signup"
+            to="signup"
             className="bg-gray-300 hover:bg-gray-400 text-gray-700 font-bold py-2 px-4 rounded"
           >
             Signup

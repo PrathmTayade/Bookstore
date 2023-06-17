@@ -40,9 +40,43 @@ def create_book(book: BookCreate):
 
 
 @books_router.get("/books/search")
-def search_books(title):
-    book = collection.find_one({"title": title})
-    return Book(**book)
+def search_books(search: str = None):
+    query = {}
+    if search:
+        query["$or"] = [
+            {"title": {"$regex": search, "$options": "i"}},
+            {"author": {"$regex": search, "$options": "i"}},
+        ]
+    books = collection.find(query)
+    return [Book(**book) for book in books]
+
+@books_router.get("/books/advancesearch")
+def search_books(
+    search: str = None,
+    genre: str = None,
+    price_range: str = None,
+    publication_date: str = None,
+):
+    query = {}
+    if search:
+        query["$or"] = [
+            {"title": {"$regex": search, "$options": "i"}},
+            {"author": {"$regex": search, "$options": "i"}},
+            {"category": {"$regex": search, "$options": "i"}},
+        ]
+    if genre:
+        query["genre"] = genre
+    if price_range:
+        min_price, max_price = price_range.split("-")
+        query["price"] = {"$gte": int(min_price), "$lte": int(max_price)}
+    if publication_date:
+        start_date, end_date = publication_date.split("-")
+        query["publication_date"] = {
+            "$gte": datetime.strptime(start_date, "%Y-%m-%d"),
+            "$lte": datetime.strptime(end_date, "%Y-%m-%d"),
+        }
+    books = collection.find(query)
+    return [Book(**book) for book in books]
 
 
 @books_router.get("/books/filter")

@@ -1,29 +1,27 @@
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 import axios from "axios";
 import { Toaster, toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 
 function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { register, handleSubmit } = useForm();
+
   const navigate = useNavigate();
   // Form submision
-  const handleLogin = async (e) => {
-    e.preventDefault();
-
+  const handleLogin = async (data) => {
     // axios implementation
     try {
       // send the credentials
-      const res = await axios.post(import.meta.env.VITE_SERVER + "/login", {
-        email: email,
-        password: password,
-      });
+      const res = await axios.post(
+        import.meta.env.VITE_SERVER + "/login",
+        data
+      );
 
       if (res.status === 200) {
         toast.success("Login successfull");
         localStorage.setItem("access_token", res.data.access_token);
         console.log(res);
+       
         setTimeout(() => {
           navigate("/books");
         }, 2500);
@@ -51,7 +49,7 @@ function LoginPage() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" onSubmit={handleLogin}>
+          <form className="space-y-6" onSubmit={handleSubmit(handleLogin)}>
             <div>
               <label
                 htmlFor="email"
@@ -66,8 +64,7 @@ function LoginPage() {
                   type="email"
                   autoComplete="email"
                   required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  {...register("email")}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -97,8 +94,7 @@ function LoginPage() {
                   type="password"
                   autoComplete="current-password"
                   required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  {...register("password")}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>

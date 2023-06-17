@@ -1,9 +1,8 @@
-import { useSelector } from "react-redux";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { cartSelector } from "../redux/cartSlice";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
-import Cart from "./Cart";
-import { useState } from "react";
+import { toast } from "react-hot-toast";
+import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { cartSelector } from "../redux/cartSlice";
 
 export default function Navbar({ setOpen }) {
   const navigate = useNavigate();
@@ -11,7 +10,8 @@ export default function Navbar({ setOpen }) {
 
   const logout = () => {
     localStorage.removeItem("access_token");
-    navigate("/home");
+    navigate("/");
+    toast.success("Logged out")
     // TODO add logout thankyou page
   };
 

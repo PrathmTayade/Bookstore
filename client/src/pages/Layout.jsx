@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import Cart from "../components/Cart";
 import { useEffect, useState } from "react";
 import LoginOrSignupPage from "./HomePage";
+import { Toaster } from "react-hot-toast";
 
 const Layout = () => {
   const navigate = useNavigate();
@@ -28,6 +29,9 @@ const Layout = () => {
           </header>
           <main>
             <Cart open={open} setOpen={setOpen} />
+            <div>
+              <Toaster toastOptions={{ duration: 2000 }} />
+            </div>
 
             <Outlet />
           </main>
