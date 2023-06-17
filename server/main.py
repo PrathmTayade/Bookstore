@@ -5,7 +5,7 @@ from router.auth import auth_router
 
 app = FastAPI()
 
-origins = ["http://localhost:5173"]
+origins = ["http://localhost:5173", "https://stately-cupcake-73320e.netlify.app"]
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
