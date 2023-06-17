@@ -65,7 +65,7 @@ const BookStore = () => {
         {loading ? (
           <div>loading</div>
         ) : (
-          <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 p-4">
+          <div className="mt-3 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 p-4">
             {booksList.map((book) => (
               <div key={book._id}>
                 <BookCard book={book} />
