@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
-import { Toaster,  } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import BookCard from "../components/BookCard";
 import SearchBar from "../components/SearchBar";
@@ -21,28 +21,31 @@ const BookStore = () => {
 
   const getBooks = async () => {
     setLoading(true);
-    const res = await axios.get(import.meta.env.VITE_SERVER + "/books");
-    if (res.status === 200) {
-      setBooksList(res.data);
-      console.log(res);
+
+    try {
+      const res = await axios.get(import.meta.env.VITE_SERVER + "/books");
+      if (res.status === 200) {
+        setBooksList(res.data);
+      }
+      setLoading(false);
+    } catch (error) {
+      console.error("Error performing search:", error);
+      toast.error(error);
     }
-    setLoading(false);
   };
 
   const handleSearch = async (data) => {
     try {
-      console.log("Search data:", data);
-
-      const res = await fetch(
+      const res = await axios.get(
         import.meta.env.VITE_SERVER + `/books/search?search=${data.search}`
       );
-      const results = await res.json();
-      console.log("Search results:", results);
+      const results = await res.data;
       if (res.status === 200) {
         setBooksList(results);
       }
     } catch (error) {
       console.error("Error performing search:", error);
+      toast.error(error);
     }
   };
 
@@ -55,21 +58,22 @@ const BookStore = () => {
       <div>
         <Toaster toastOptions={{ duration: 1500 }} />
       </div>
-      {loading ? (
-        <div>loading</div>
-      ) : (
-        <div className="container flex-1 w-full scroll-smooth ">
-          <SearchBar onSearch={handleSearch} onClear={handleClearSearch} />{" "}
-          {/* Pass onClear function to SearchBar */}
-          <div className="flex grid-flow-row grid-cols-fluid flex-col justify-center gap-6 p-6 text-gray-900 md:grid md:grid-cols-3">
+
+      <div className=" mx-auto max-w-2xl p-4 sm:px-6  lg:max-w-7xl lg:px-8 ">
+        <SearchBar onSearch={handleSearch} onClear={handleClearSearch} />{" "}
+        {/* Pass onClear function to SearchBar */}
+        {loading ? (
+          <div>loading</div>
+        ) : (
+          <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 p-4">
             {booksList.map((book) => (
               <div key={book._id}>
                 <BookCard book={book} />
               </div>
             ))}
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </>
   );
 };

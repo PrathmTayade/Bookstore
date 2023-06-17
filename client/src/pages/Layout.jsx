@@ -24,7 +24,7 @@ const Layout = () => {
     <>
       {isAuthenticated ? (
         <>
-          <header>
+          <header className="h-20 sticky inset-x-0 top-0 z-30" >
             <Navbar setOpen={setOpen} />
           </header>
           <main>
@@ -35,7 +35,7 @@ const Layout = () => {
 
             <Outlet />
           </main>
-          <footer>made with love by prathamesh</footer>
+          {/* <footer>made with love by prathamesh</footer> */}
         </>
       ) : (
         <main>

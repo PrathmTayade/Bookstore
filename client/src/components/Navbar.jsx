@@ -11,7 +11,7 @@ export default function Navbar({ setOpen }) {
   const logout = () => {
     localStorage.removeItem("access_token");
     navigate("/");
-    toast.success("Logged out")
+    toast.success("Logged out");
     // TODO add logout thankyou page
   };
 

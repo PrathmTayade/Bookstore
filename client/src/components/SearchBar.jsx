@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 const SearchBar = ({ onSearch, onClear }) => {
+  const [showAdvSearch, setShowAdvSearch] = useState(false);
   const { register, handleSubmit, reset } = useForm();
 
   const onSubmit = (data) => {
@@ -14,8 +16,8 @@ const SearchBar = ({ onSearch, onClear }) => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex items-center border-b border-gray-500 p-2">
+      <form onSubmit={handleSubmit(onSubmit)} className="p-4">
+        <div className="flex items-center border shadow-md rounded-md p-2">
           <input
             className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
             type="text"

@@ -2,6 +2,8 @@ from fastapi import APIRouter
 from models.books_model import BookCreate
 from models.books_model import Book
 from database.db import collection
+import json
+import random
 
 books_router = APIRouter()
 
@@ -50,6 +52,7 @@ def search_books(search: str = None):
     books = collection.find(query)
     return [Book(**book) for book in books]
 
+
 @books_router.get("/books/advancesearch")
 def search_books(
     search: str = None,
@@ -69,12 +72,12 @@ def search_books(
     if price_range:
         min_price, max_price = price_range.split("-")
         query["price"] = {"$gte": int(min_price), "$lte": int(max_price)}
-    if publication_date:
-        start_date, end_date = publication_date.split("-")
-        query["publication_date"] = {
-            "$gte": datetime.strptime(start_date, "%Y-%m-%d"),
-            "$lte": datetime.strptime(end_date, "%Y-%m-%d"),
-        }
+    # if publication_date:
+    #     start_date, end_date = publication_date.split("-")
+    #     query["publication_date"] = {
+    #         "$gte": datetime.strptime(start_date, "%Y-%m-%d"),
+    #         "$lte": datetime.strptime(end_date, "%Y-%m-%d"),
+    #     }
     books = collection.find(query)
     return [Book(**book) for book in books]
 
@@ -92,3 +95,17 @@ def filter_books(min_price: float = None, max_price: float = None):
 
     books = collection.find(query)
     return [Book(**book) for book in books]
+
+
+def upload_books():
+    with open("amazon.books.json") as f:
+        books = json.load(f)
+    for book in books:
+        book["rating"] = random.randint(1, 5)
+        book["price"] = random.randint(100, 1000)
+    for book in books[:10]:
+        print(book)
+    # return {"message": "Books uploaded successfully!"}
+
+
+# upload_books()

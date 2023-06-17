@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, cartSelector, removeFromCart } from "../redux/cartSlice";
+import { toast } from "react-hot-toast";
 
 const BookCard = ({ book }) => {
   const cart = useSelector(cartSelector);
@@ -13,76 +14,78 @@ const BookCard = ({ book }) => {
     return description;
   };
 
+  const handleAddToCart = () => {
+    dispatch(addToCart(book));
+    toast.success("Added to cart");
+  };
+
   return (
-    <>
-      <div>
-        <div className="w-full max-w-sm overflow-hidden rounded-lg border border-gray-200 bg-white p-3 shadow-md">
-          <div>
-            <img
-              draggable="false"
-              className="p-10"
-              src={book.cover_image}
-              alt="product image"
-            />
-          </div>
-          <div className="px-5 pb-5">
-            <div className="text-xl font-semibold tracking-tight">
-              {book.title}
-            </div>
-
-            <div className="mt-2.5 mb-5 flex items-center">
-              <span className=" rounded flex items-center justify-center gap-1 bg-blue-100 px-1.5 py-0.5 text-xs font-semibold text-blue-800 dark:bg-blue-200 dark:text-blue-800">
-                <svg
-                  aria-hidden="true"
-                  className="h-5 w-5 text-yellow-300"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <title>First star</title>
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                {book.rating}
-              </span>
-            </div>
-            <div className="mb-3 font-normal ">{book.author}</div>
-            <div>
-              <div className="mb-3 font-normal text-gray-700 line-clamp-3">
-                {truncateDescription(book.description, 100)}
-              </div>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-2xl font-bold text-gray-900 md:text-3xl">
-                ₹ {book.price}
-              </span>
-
-              {/* Dynamic button */}
-              <div>
-                {cart.items.some((item) => item._id === book._id) ? (
-                  <button
-                    type="button"
-                    className="rounded-lg px-5 py-2.5 text-center text-sm font-medium text-red-600 outline outline-red-600 hover:bg-red-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-300"
-                    onClick={() => {
-                      dispatch(removeFromCart(book._id));
-                    }}
-                  >
-                    Remove
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => dispatch(addToCart(book))}
-                    className="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                  >
-                    Add to Cart
-                  </button>
-                )}
-              </div>
-            </div>
+    <div
+      key={book.id}
+      className="group relative bg-white rounded-md shadow-md p-4 "
+    >
+      <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-60">
+        <img
+          src={book.cover_image}
+          alt={book.title}
+          className="h-full w-full object-cover object-center lg:h-full lg:w-full transition duration-400 hover:scale-90 hover:object-contain"
+        />
+      </div>
+      <div className="mt-4 flex flex-col justify-between">
+        <div className="">
+          <h3 className="text-lg font-semibold text-gray-900 line-clamp-2">
+            {book.title}
+          </h3>
+          <p className="mt-1 text-sm text-gray-500">
+            {book?.author !== "" ? book.author : "Unknown"}
+          </p>
+          <p className="mt-2 text-gray-700 line-clamp-3 text-ellipsis">
+            {book.description}
+          </p>
+          <div className="mt-4 flex items-center">
+            <svg
+              aria-hidden="true"
+              className="h-5 w-5 text-yellow-300"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <title>Star</title>
+              <path
+                fillRule="evenodd"
+                d="M10 16.22l-3.68 2.3a1 1 0 01-1.48-1.05l.99-4.38-3.31-2.86a1 1 0 01.55-1.75l4.43-.38 1.73-4.03a1 1 0 011.8 0l1.73 4.03 4.43.38a1 1 0 01.55 1.75l-3.31 2.86.99 4.38a1 1 0 01-1.48 1.05L10 16.22z"
+                clipRule="evenodd"
+              />
+            </svg>
+            <p className="ml-1 text-sm text-gray-500">{book.rating}</p>
           </div>
         </div>
+        <div className="mt-4 lg:mt-0 flex justify-between items-center ">
+          <p className="text-lg font-medium text-gray-900">
+            &#8377; {book.price}
+          </p>
+          {cart.items.some((item) => item._id === book._id) ? (
+            <button
+              type="button"
+              className="px-4 py-2 mt-2 lg:mt-0 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-md transition duration-300"
+              onClick={() => {
+                dispatch(removeFromCart(book._id));
+              }}
+            >
+              Remove
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={handleAddToCart}
+              className="px-4 py-2 mt-2 lg:mt-0 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md transition duration-300"
+            >
+              Add to Cart
+            </button>
+          )}
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 
