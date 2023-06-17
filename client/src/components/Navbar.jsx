@@ -71,7 +71,11 @@ export default function Navbar({ setOpen }) {
         <button type="button" onClick={logout}>
           logout
         </button>
+
         <ShoppingCartIcon onClick={() => setOpen(true)} className="h-10 w-10" />
+        <div className=" h-6 w-6 rounded-full bg-red-400 text-center text-white ">
+          {cart.items.length}
+        </div>
       </div>
     </>
   );
