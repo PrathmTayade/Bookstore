@@ -1,5 +1,0 @@
-fastapi
-uvicorn[standard]
-pymongo
-passlib[bcrypt]
-python-jose[cryptography]
