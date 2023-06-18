@@ -1,7 +1,7 @@
 from fastapi import APIRouter
-from models.books_model import BookCreate
-from models.books_model import Book
-from database.db import collection
+from models.books_model import Book, NewBooks , BookCreate
+from database.db import collection, newbooks_collection
+
 import json
 import random
 
@@ -14,6 +14,17 @@ async def get_books():
     for book in collection.find():
         book["_id"] = str(book["_id"])
         books.append(book)
+    return books
+
+
+@books_router.get("/newbooks")
+async def get_newbooks():
+    # Retrieve all books from the collection
+    books_data = newbooks_collection.find()
+
+    # Convert MongoDB documents to list of dictionaries
+    books = [book for book in books_data]
+
     return books
 
 
@@ -97,15 +108,15 @@ def filter_books(min_price: float = None, max_price: float = None):
     return [Book(**book) for book in books]
 
 
-def upload_books():
-    with open("amazon.books.json") as f:
-        books = json.load(f)
-    for book in books:
-        book["rating"] = random.randint(1, 5)
-        book["price"] = random.randint(100, 1000)
-    for book in books[:10]:
-        print(book)
-    # return {"message": "Books uploaded successfully!"}
+# def upload_books():
+#     with open("books.json") as f:
+#         books = json.load(f)
+#     for book in books:
+#         book["rating"] = random.randint(1, 5)
+#         book["price"] = random.randint(100, 1000)
+#         newbooks_collection.insert_one(book)
+
+# return {"message": "Books uploaded successfully!"}
 
 
 # upload_books()

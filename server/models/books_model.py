@@ -1,5 +1,7 @@
 from bson.objectid import ObjectId
 from pydantic import BaseModel
+from datetime import datetime
+from typing import List
 
 
 class Book(BaseModel):
@@ -11,6 +13,21 @@ class Book(BaseModel):
     rating: int
 
 
+class PublishedDate(BaseModel):
+    date: datetime
+
+
+class NewBooks(BaseModel):
+    _id: int
+    title: str
+    isbn: str
+    pageCount: int
+    publishedDate: PublishedDate
+    thumbnailUrl: str
+    shortDescription: str
+    status: str
+    authors: List[str]
+    categories: List[str]
 
 
 class BookCreate(BaseModel):
@@ -20,4 +37,3 @@ class BookCreate(BaseModel):
     cover_image: str
     price: float
     rating: int
-

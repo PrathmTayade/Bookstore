@@ -5,6 +5,7 @@ import { Toaster, toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import BookCard from "../components/BookCard";
 import SearchBar from "../components/SearchBar";
+import { useGetBooksListQuery, useGetNewBooksListQuery } from "../apis/apis";
 
 const BookStore = () => {
   const [booksList, setBooksList] = useState([]);
@@ -19,6 +20,7 @@ const BookStore = () => {
     // Check if logged in
   }, []);
 
+  const { data, isFetching } = useGetNewBooksListQuery();
   const getBooks = async () => {
     setLoading(true);
 
@@ -53,29 +55,31 @@ const BookStore = () => {
     getBooks(); // Fetch all data again
   };
 
-  return (
-    <>
-      <div>
-        <Toaster toastOptions={{ duration: 1500 }} />
-      </div>
+  if (data) {
+    return (
+      <>
+        <div>
+          <Toaster toastOptions={{ duration: 1500 }} />
+        </div>
 
-      <div className=" mx-auto max-w-2xl p-4 sm:px-6  lg:max-w-7xl lg:px-8 ">
-        <SearchBar onSearch={handleSearch} onClear={handleClearSearch} />{" "}
-        {/* Pass onClear function to SearchBar */}
-        {loading ? (
-          <div>loading</div>
-        ) : (
-          <div className="mt-3 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 p-4">
-            {booksList.map((book) => (
-              <div key={book._id}>
-                <BookCard book={book} />
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </>
-  );
+        <div className=" mx-auto max-w-2xl p-4 sm:px-6  lg:max-w-7xl lg:px-8 ">
+          <SearchBar onSearch={handleSearch} onClear={handleClearSearch} />{" "}
+          {/* Pass onClear function to SearchBar */}
+          {isFetching ? (
+            <div>loading</div>
+          ) : (
+            <div className="mt-3 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 p-4">
+              {data.map((book) => (
+                <div key={book._id}>
+                  <BookCard book={book} />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </>
+    );
+  }
 };
 
 export default BookStore;

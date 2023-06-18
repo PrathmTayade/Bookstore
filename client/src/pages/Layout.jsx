@@ -22,26 +22,16 @@ const Layout = () => {
 
   return (
     <>
-      {isAuthenticated ? (
-        <>
-          <header className="h-20 sticky inset-x-0 top-0 z-30" >
-            <Navbar setOpen={setOpen} />
-          </header>
-          <main>
-            <Cart open={open} setOpen={setOpen} />
-            <div>
-              <Toaster toastOptions={{ duration: 2000 }} />
-            </div>
+      <Navbar setOpen={setOpen} />
+      <main>
+        <Cart open={open} setOpen={setOpen} />
+        <div>
+          <Toaster toastOptions={{ duration: 2000 }} />
+        </div>
 
-            <Outlet />
-          </main>
-          {/* <footer>made with love by prathamesh</footer> */}
-        </>
-      ) : (
-        <main>
-          <LoginOrSignupPage />
-        </main>
-      )}
+        <Outlet />
+      </main>
+      {/* <footer>made with love by prathamesh</footer> */}
     </>
   );
 };

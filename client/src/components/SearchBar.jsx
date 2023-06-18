@@ -6,7 +6,7 @@ const SearchBar = ({ onSearch, onClear }) => {
   const { register, handleSubmit, reset } = useForm();
 
   const onSubmit = (data) => {
-    const basicSearchQuery = data.search || "";
+    const basicSearchQuery = data;
     const advancedSearchOptions = {
       genre: data.genre || "",
       minPrice: data.minPrice || "",
@@ -63,7 +63,7 @@ const SearchBar = ({ onSearch, onClear }) => {
             className="text-blue-500 hover:text-blue-700 text-sm font-medium "
             onClick={() => setShowAdvSearch(!showAdvSearch)}
           >
-            {showAdvSearch ? "Hide Advanced Search" : "Show Advanced Search"}
+            {showAdvSearch ? "Hide Advanced options" : "Show Advanced options"}
           </button>
         </div>
 

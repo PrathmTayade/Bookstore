@@ -7,13 +7,6 @@ const BookCard = ({ book }) => {
   const cart = useSelector(cartSelector);
   const dispatch = useDispatch();
 
-  const truncateDescription = (description, maxLength) => {
-    if (description.length > maxLength) {
-      return description.slice(0, maxLength) + " ...";
-    }
-    return description;
-  };
-
   const handleAddToCart = () => {
     dispatch(addToCart(book));
     toast.success("Added to cart");
@@ -26,7 +19,7 @@ const BookCard = ({ book }) => {
     >
       <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-60">
         <img
-          src={book.cover_image}
+          src={book.thumbnailUrl}
           alt={book.title}
           className="h-full w-full object-cover object-center lg:h-full lg:w-full transition duration-400 hover:scale-90 hover:object-contain"
         />
@@ -37,10 +30,10 @@ const BookCard = ({ book }) => {
             {book.title}
           </h3>
           <p className="mt-1 text-sm text-gray-500">
-            {book?.author !== "" ? book.author : "Unknown"}
+            {book?.authors !== "" ? book?.authors.join(", ") : "Unknown"}
           </p>
           <p className="mt-2 text-gray-700 line-clamp-3 text-ellipsis">
-            {book.description}
+            {book.shortDescription}
           </p>
           <div className="mt-4 flex items-center">
             <svg

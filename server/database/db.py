@@ -6,6 +6,7 @@ client = pymongo.MongoClient(
 )
 db = client["bookstore"]
 collection = db["books"]
+newbooks_collection = db["newbooks"]
 users_collection = db["users"]
 
 # Check if the MongoDB connection is successful

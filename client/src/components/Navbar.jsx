@@ -61,22 +61,26 @@ export default function Navbar({ setOpen }) {
           </div>
         </div>
       </div> */}
+      <header className="h-20 sticky inset-x-0 top-0 z-30">
+        <div className="flex justify-between p-2 px-4 items-center h-20 bg-slate-800 text-white text-lg font-bold ">
+          <h1>Book Store</h1>
+          <Link to={"books"}>
+            <h2>Shop</h2>
+          </Link>
 
-      <div className="flex justify-between p-2 px-4 items-center h-20 bg-slate-800 text-white text-lg font-bold ">
-        <h1>Book Store</h1>
-        <Link to={"books"}>
-          <h2>Shop</h2>
-        </Link>
+          <button type="button" onClick={logout}>
+            logout
+          </button>
 
-        <button type="button" onClick={logout}>
-          logout
-        </button>
-
-        <ShoppingCartIcon onClick={() => setOpen(true)} className="h-10 w-10" />
-        <div className=" h-6 w-6 rounded-full bg-red-400 text-center text-white ">
-          {cart.items.length}
+          <ShoppingCartIcon
+            onClick={() => setOpen(true)}
+            className="h-10 w-10"
+          />
+          <div className=" h-6 w-6 rounded-full bg-red-400 text-center text-white ">
+            {cart.items.length}
+          </div>
         </div>
-      </div>
+      </header>
     </>
   );
 }

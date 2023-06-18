@@ -1,6 +1,16 @@
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const LoginOrSignupPage = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorage.getItem("access_token");
+
+    if (token) {
+      navigate("/books");
+    }
+  }, []);
+
   return (
     <div className="flex items-center justify-center h-screen">
       <div className="bg-white shadow-lg rounded px-10 py-8">
