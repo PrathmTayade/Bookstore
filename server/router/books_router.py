@@ -52,17 +52,34 @@ def create_book(book: BookCreate):
     return Book(**new_book)
 
 
-@books_router.get("/newbooks/search")
-def search_books(search: str = None):
+@books_router.post("/newbooks/search")
+def search_books(search_terms: dict):
     query = {}
-    if search:
-        query["$or"] = [
-            {"title": {"$regex": search, "$options": "i"}},
-            {"authors": {"$elemMatch": {"$regex": search, "$options": "i"}}},
-        ]
-    result = newbooks_collection.find(query)
-    books = [book for book in result]
-    return books
+
+    if "categories" in search_terms:
+        query["categories"] = {"$in": search_terms["categories"].split(",")}
+
+    if "title" in search_terms:
+        query["title"] = {"$regex": search_terms["title"], "$options": "i"}
+
+    if "author" in search_terms:
+        query["authors"] = {
+            "$elemMatch": {"$regex": search_terms["author"], "$options": "i"}
+        }
+
+    if "minPrice" in search_terms and "maxPrice" in search_terms:
+        query["price"] = {
+            "$gte": int(search_terms["minPrice"]),
+            "$lte": int(search_terms["maxPrice"]),
+        }
+    elif "minPrice" in search_terms:
+        query["price"] = {"$gte": int(search_terms["minPrice"])}
+    elif "maxPrice" in search_terms:
+        query["price"] = {"$lte": int(search_terms["maxPrice"])}
+
+    books = newbooks_collection.find(query)
+    result = [book for book in books]
+    return result
 
 
 @books_router.get("/books/advancesearch")

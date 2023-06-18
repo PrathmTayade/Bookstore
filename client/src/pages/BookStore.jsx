@@ -4,7 +4,7 @@ import { Toaster, toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import BookCard from "../components/BookCard";
 import SearchBar from "../components/SearchBar";
-import { useGetNewBooksListQuery, useSearchBooksQuery } from "../apis/apis";
+import { useGetNewBooksListQuery, useSearchBooksMutation } from "../apis/apis";
 
 const BookStore = () => {
   const [loading, setLoading] = useState(false);
@@ -12,7 +12,13 @@ const BookStore = () => {
 
   const navigate = useNavigate();
 
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerms, setSearchTerms] = useState({
+    title: "flex",
+    categories: "Internet",
+    author: "",
+    minPrice: "",
+    maxPrice: "",
+  });
 
   // Initial data fetching
   useEffect(() => {
@@ -21,15 +27,17 @@ const BookStore = () => {
 
   const { data: newBooksData, isFetching: isFetchingNewBooks } =
     useGetNewBooksListQuery();
-  const { data: searchBooksData, isFetching: isFetchingSearchBooks } =
-    useSearchBooksQuery(searchTerm);
+  const [
+    searchBooks,
+    { data: searchBooksData, isError, isLoading: isLoadingSearchBooks },
+  ] = useSearchBooksMutation();
 
   const handleSearch = async (data) => {
-    setSearchTerm(data.search);
+    console.log(data);
+    searchBooks(data);
   };
-
   const handleClearSearch = async () => {
-    setSearchTerm(""); // Fetch all new books again
+    // Fetch all new books again
   };
 
   return (
@@ -41,12 +49,12 @@ const BookStore = () => {
       <div className="mx-auto max-w-2xl p-4 sm:px-6 lg:max-w-7xl lg:px-8">
         <SearchBar onSearch={handleSearch} onClear={handleClearSearch} />{" "}
         {/* Pass onClear function to SearchBar */}
-        {isFetchingNewBooks || isFetchingSearchBooks ? (
+        {isFetchingNewBooks ? (
           <div>Loading...</div>
         ) : (
           <div className="mt-3 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 p-4">
-            {searchTerm
-              ? searchBooksData.map((book) => (
+            {searchBooksData
+              ? searchBooksData?.map((book) => (
                   <div key={book._id}>
                     <BookCard book={book} />
                   </div>
