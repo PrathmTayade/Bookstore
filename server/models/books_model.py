@@ -25,9 +25,12 @@ class NewBooks(BaseModel):
     publishedDate: PublishedDate
     thumbnailUrl: str
     shortDescription: str
+    longDescription:str
     status: str
     authors: List[str]
     categories: List[str]
+    rating: int
+    price:int
 
 
 class BookCreate(BaseModel):

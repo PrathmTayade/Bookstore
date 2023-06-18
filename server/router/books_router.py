@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from models.books_model import Book, NewBooks , BookCreate
+from models.books_model import Book, NewBooks, BookCreate
 from database.db import collection, newbooks_collection
 
 import json
@@ -52,16 +52,17 @@ def create_book(book: BookCreate):
     return Book(**new_book)
 
 
-@books_router.get("/books/search")
+@books_router.get("/newbooks/search")
 def search_books(search: str = None):
     query = {}
     if search:
         query["$or"] = [
             {"title": {"$regex": search, "$options": "i"}},
-            {"author": {"$regex": search, "$options": "i"}},
+            {"authors": {"$elemMatch": {"$regex": search, "$options": "i"}}},
         ]
-    books = collection.find(query)
-    return [Book(**book) for book in books]
+    result = newbooks_collection.find(query)
+    books = [book for book in result]
+    return books
 
 
 @books_router.get("/books/advancesearch")
