@@ -22,9 +22,17 @@ const BookStore = () => {
 
   // Initial data fetching
   useEffect(() => {
-    // Check if logged in
+    const token = localStorage.getItem("access_token");
+    if (token) {
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+      navigate("/");
+    }
   }, []);
-
+  if (!isAuthenticated) {
+    navigate("/");
+  }
   const { data: newBooksData, isFetching: isFetchingNewBooks } =
     useGetNewBooksListQuery();
   const [

@@ -22,7 +22,10 @@ const Layout = () => {
 
   return (
     <>
-      <Navbar setOpen={setOpen} />
+      <header className="h-20 sticky inset-x-0 top-0 z-30">
+        <Navbar setOpen={setOpen} />
+      </header>
+
       <main>
         <Cart open={open} setOpen={setOpen} />
         <div>

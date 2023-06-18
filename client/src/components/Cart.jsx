@@ -73,7 +73,7 @@ export default function Cart({ open, setOpen }) {
                               <li key={book._id} className="flex py-6">
                                 <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                   <img
-                                    src={book.cover_image}
+                                    src={book.thumbnailUrl}
                                     alt={book.title}
                                     className="h-full w-full object-cover object-center"
                                   />
@@ -97,8 +97,9 @@ export default function Cart({ open, setOpen }) {
                                   </p>
                                   <div className="flex flex-1 items-end justify-between text-sm">
                                     <p className="text-gray-500">
-                                      Qty
-                                      {book.quantity}
+                                      Qty: {" "}
+                                      {/* TODO add quantity in cart  */}
+                                      1
                                     </p>
 
                                     <div className="flex">
@@ -138,15 +139,15 @@ export default function Cart({ open, setOpen }) {
                         </a>
                       </div>
                       <div className="gap-2 mt-2 flex flex-col justify-center text-center text-sm text-gray-500">
-                          <div> or</div>
-                          <button
-                            type="button"
-                            className="font-medium text-indigo-600 hover:text-indigo-500"
-                            onClick={() => setOpen(false)}
-                          >
-                            Continue Shopping
-                            <span aria-hidden="true"> &rarr;</span>
-                          </button>
+                        <div> or</div>
+                        <button
+                          type="button"
+                          className="font-medium text-indigo-600 hover:text-indigo-500"
+                          onClick={() => setOpen(false)}
+                        >
+                          Continue Shopping
+                          <span aria-hidden="true"> &rarr;</span>
+                        </button>
                       </div>
                     </div>
                   </div>
