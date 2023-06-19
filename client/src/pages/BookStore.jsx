@@ -20,6 +20,7 @@ const BookStore = () => {
     maxPrice: "",
   });
 
+  const [showSearch, setshowSearch] = useState(false);
   // Initial data fetching
   useEffect(() => {
     const token = localStorage.getItem("access_token");
@@ -30,9 +31,7 @@ const BookStore = () => {
       navigate("/");
     }
   }, []);
-  if (!isAuthenticated) {
-    navigate("/");
-  }
+
   const { data: newBooksData, isFetching: isFetchingNewBooks } =
     useGetNewBooksListQuery();
   const [
@@ -42,10 +41,12 @@ const BookStore = () => {
 
   const handleSearch = async (data) => {
     console.log(data);
+    setshowSearch(true);
     searchBooks(data);
   };
   const handleClearSearch = async () => {
     // Fetch all new books again
+    setshowSearch(false);
   };
 
   return (
@@ -61,7 +62,7 @@ const BookStore = () => {
           <div>Loading...</div>
         ) : (
           <div className="mt-3 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 p-4">
-            {searchBooksData
+            {showSearch
               ? searchBooksData?.map((book) => (
                   <div key={book._id}>
                     <BookCard book={book} />

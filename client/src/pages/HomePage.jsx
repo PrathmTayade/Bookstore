@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 const LoginOrSignupPage = () => {
   const navigate = useNavigate();
+  
   useEffect(() => {
     const token = localStorage.getItem("access_token");
 
