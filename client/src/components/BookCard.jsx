@@ -13,8 +13,8 @@ const BookCard = ({ book }) => {
   };
 
   return (
-    <div className="group relative bg-white rounded-md shadow-md p-4">
-      <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-60">
+    <article className="group relative bg-white rounded-md shadow-md p-4">
+      <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-60">
         <img
           src={book.thumbnailUrl}
           alt={book.title}
@@ -26,16 +26,9 @@ const BookCard = ({ book }) => {
           <h3 className="text-lg font-semibold text-gray-900 line-clamp-2">
             {book.title}
           </h3>
-          <p className="mt-1 text-sm text-gray-500">
-            {book?.authors && book.authors.length > 0
-              ? book.authors.join(", ")
-              : "Unknown"}
-          </p>
-          <p className="mt-2 text-gray-700 line-clamp-3 text-ellipsis">
-            {book.shortDescription}
-          </p>
-          <div className="mt-4 flex items-center">
-            <svg
+          <div className="flex items-center mt-1">
+            {/* Star Icon */}
+            {/* <svg
               aria-hidden="true"
               className="h-5 w-5 text-yellow-300"
               fill="currentColor"
@@ -49,20 +42,27 @@ const BookCard = ({ book }) => {
                 clipRule="evenodd"
               />
             </svg>
-            <p className="ml-1 text-sm text-gray-500">{book.rating}</p>
+            <p className="ml-1 text-sm text-gray-500">{book.rating}</p> */}
+          </div>
+          <p className="mt-1 text-sm text-gray-500">
+            {book?.authors && book.authors.length > 0
+              ? book.authors.join(", ")
+              : "Unknown"}
+          </p>
+          <p className="mt-2 text-gray-700 line-clamp-3 text-ellipsis">
+            {book.shortDescription}
+          </p>
+          <div className="my-4 flex items-center">
+            <p className="mt-1 text-sm font-bold text-gray-500">
+              Categories:{" "}
+              <span className="font-normal">{book.categories.join(", ")}</span>
+            </p>
           </div>
         </div>
         <div className="mt-4 lg:mt-0 flex justify-between items-center">
           <div>
-            <p className="text-lg font-medium text-gray-900">
-              &#8377; {book.price}
-            </p>
-            <p className="mt-1 text-sm text-gray-500">
-              Pages: {book.pagesCount}
-            </p>
-            <p className="mt-1 text-sm text-gray-500">
-              Categories: {book.categories.join(", ")}
-            </p>
+            <p className="text-lg font-medium text-gray-900">₹ {book.price}</p>
+            {/* <p className="mt-1 text-sm text-gray-500">Pages: {book.pageCount}</p> */}
           </div>
           {cart.items.some((item) => item._id === book._id) ? (
             <button
@@ -85,7 +85,7 @@ const BookCard = ({ book }) => {
           )}
         </div>
       </div>
-    </div>
+    </article>
   );
 };
 
