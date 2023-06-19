@@ -99,8 +99,8 @@ def search_books(
             {"author": {"$regex": search, "$options": "i"}},
             {"category": {"$regex": search, "$options": "i"}},
         ]
-    if genre:
-        query["genre"] = genre
+    if category:
+        query["genre"] = category
     if price_range:
         min_price, max_price = price_range.split("-")
         query["price"] = {"$gte": int(min_price), "$lte": int(max_price)}
